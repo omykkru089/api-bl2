@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  bl2_api:
+    image: bl2_api:latest
+    ports:
+      - 7000:${API_PORT}
+    env_file: .docker.env
+    networks:
+      - postgres_db_net
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:14
+    hostname: BL2_DB_POSTGRES
+    restart: always
+    env_file: .docker.env
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    networks:
+      - postgres_db_net
+networks:
+  postgres_db_net:
+    name: 'postgres_db_network'
+    driver: 'bridge'

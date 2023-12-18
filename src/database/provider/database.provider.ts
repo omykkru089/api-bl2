@@ -1,5 +1,4 @@
 import { Logger } from "@nestjs/common";
-import mongoose from "mongoose";
 import { ArmaEntity } from "src/resources/armas/entities/arma.entity";
 import { createConnection } from "typeorm";
 
@@ -27,21 +26,6 @@ export const databaseProviders = [
             })
             .catch(error => {
                 Logger.error('error al conectar por postgres', error);
-            }),
-    },
-    {
-        provide: 'MONGODB_CONNECTION',
-        useFactory: () =>
-            mongoose
-            .connect(
-                `mongodb://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.MONGO_DATABASE_HOST}:${process.env.DATABASE_PORT_MONGODB || 27017}/${process.env.DATABASE_NAME}`,
-            )
-            .then((connection) => {
-                Logger.debug('conexion con mongodb exitosa!');
-                return connection;
-            })
-            .catch((error) => {
-                Logger.error('error al conectar por mongodb', error);
             }),
     }
 ]

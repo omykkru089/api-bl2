@@ -2,12 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, NotAc
 import { ArmasService } from './armas.service';
 import { CreateArmaDto } from './dto/create-arma.dto';
 import { UpdateArmaDto } from './dto/update-arma.dto';
-import { ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Arma } from './dto/arma';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Armas')
-
+@ApiBasicAuth()
 @Controller('armas')
 export class ArmasController {
   constructor(private readonly armasService: ArmasService) {}
@@ -25,6 +25,7 @@ export class ArmasController {
   }
 
   @Get()
+  @UseGuards(AuthGuard('basic'))
   @ApiOkResponse({
     description:'Armas encontrada con exito',
     type: Arma,

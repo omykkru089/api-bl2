@@ -8,20 +8,20 @@ export class BasicStrategy extends PassportStrategy(Strategy) {
     constructor() {
         super({
             passReqToCallback: true,
-        })
+        });
     }
 
     public validate = async (
         req: Request,
-         username: string,
-          password: string,
-          ) => {
+        username: string,
+        password: string,
+    ) => {
         if (
             process.env.API_USER === username && 
             process.env.API_PASS === password
-            ) {
-            return true
+        ) {
+            return true;
         }
-        throw new UnauthorizedException('Credenciales Invalidas')
-    }
+        throw new UnauthorizedException('Credenciales invalidas');
+    };
 }
